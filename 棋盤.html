@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    .outside {
+      display: flex;
+      height: 900px;
+      width: 950px;
+      margin: auto;
+      font-family: "標楷體";
+    }
+
+    p {
+      writing-mode: vertical-rl;
+      font-size: 43px;
+      /* 調整字體大小以適應垂直顯示 */
+      margin: 20px;
+      /* 添加間距，使文字與棋盤分開 */
+      display: flex;
+      /* 確保文字居中 */
+      align-items: center;
+      /* 垂直居中 */
+    }
+
+    .box {
+      display: flex;
+      height: 860px;
+      width: 800px;
+      border: 1px solid black;
+      box-sizing: border-box;
+      margin: auto;
+      position: relative;
+    }
+
+    .chessboard {
+      width: 640px;
+      gap: 0;
+      display: flex;
+      margin: auto;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+
+    .col {
+      height: 80px;
+      width: 80px;
+      border: 1px solid black;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .col~.col {
+      border-left: none;
+      border-top: none;
+    }
+
+    .col:nth-child(9),
+    .col:nth-child(17),
+    .col:nth-child(25),
+    .col:nth-child(34),
+    .col:nth-child(42),
+    .col:nth-child(50),
+    .col:nth-child(58) {
+      border-left: 1px solid #000;
+    }
+
+    .col:nth-child(2),
+    .col:nth-child(3),
+    .col:nth-child(4),
+    .col:nth-child(5),
+    .col:nth-child(6),
+    .col:nth-child(7),
+    .col:nth-child(8) {
+      border-top: 1px solid #000;
+    }
+
+    .col:nth-child(4)::before {
+      content: "";
+      height: 1px;
+      width: 223px;
+      background: #000;
+      position: absolute;
+      transform-origin: left center;
+      transform: rotate(45deg);
+    }
+
+    .col:nth-child(6)::after {
+      content: "";
+      height: 1px;
+      width: 223px;
+      background: #000;
+      position: absolute;
+      transform-origin: left center;
+      transform: rotate(135deg);
+    }
+
+    .col:nth-child(53)::before {
+      content: "";
+      height: 1px;
+      width: 223px;
+      background: #000;
+      position: absolute;
+      transform-origin: left center;
+      transform: rotate(45deg);
+    }
+
+    .col:nth-child(55)::after {
+      content: "";
+      height: 1px;
+      width: 223px;
+      background: #000;
+      position: absolute;
+      transform-origin: left center;
+      transform: rotate(135deg);
+    }
+
+    .river {
+      height: 80px;
+      width: 640px;
+      border: 1px solid black;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-bottom: 2px solid black;
+    }
+
+    .river-text {
+      font-size: 45px;
+      font-family: "標楷體";
+    }
+
+    .black {
+      width: 710px;
+      height: 390px;
+      /* background-color: rgba(0, 0, 0, 0.5); */
+      position: absolute;
+      top: 35px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      flex-direction:column;
+      justify-content: space-between;
+    }
+
+    /*  
+      grid 80x80 => 640x320
+    */
+
+    .piece {
+      display: flex;
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      border: 1px solid black;
+      /* background-color: aquamarine; */
+      margin: 2px;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      box-shadow: 1px 1px gray;
+    }
+
+    .bg-white{
+      background-color: #fff;
+    }
+
+    .row {
+      display: flex;
+      gap:10px;
+  
+    }
+
+    .red-piece {
+      display: flex;
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      border: 1px solid rgb(60, 59, 59);
+      /* background-color: aquamarine; */
+      margin: 2px;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      color: red;
+      box-shadow: 1px 1px gray;
+    }
+
+    .red {
+      width: 710px;
+      height: 390px;
+      /* background-color: rgba(0, 0, 0, 0.5); */
+      position: absolute;
+      top: 520px;
+      left: 0;
+      right: 0;
+      margin: auto;
+      flex-direction:column;
+      justify-content: space-between;
+    }
+
+    .borderless {
+      border: none;
+      box-shadow: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="outside">
+    <p>棋盤裡，車無輪，馬無韁，叫聲將軍堤防堤防</p>
+    <div class="box">
+      <div class="chessboard">
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="river">
+          <div class="river-text">楚河</div>
+          <div class="river-text">漢界</div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
+      </div>
+      <!-- 黑色棋子 -->
+      <div class="black">
+        <div class="row">
+          <div class="piece bg-white">車</div>
+          <div class="piece bg-white">馬</div>
+          <div class="piece bg-white">象</div>
+          <div class="piece bg-white">士</div>
+          <div class="piece bg-white">將</div>
+          <div class="piece bg-white">士</div>
+          <div class="piece bg-white">象</div>
+          <div class="piece bg-white">馬</div>
+          <div class="piece bg-white">車</div>
+        </div>
+        <div class="row">
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+        </div>
+        <div class="row">
+          <div class="piece borderless"></div>
+          <div class="piece bg-white">包</div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece borderless"></div>
+          <div class="piece bg-white">包</div>
+          <div class="piece borderless"></div>
+        </div>
+        <div class="row">
+          <div class="piece bg-white">卒</div>
+          <div class="piece borderless"></div>
+          <div class="piece bg-white">卒</div>
+          <div class="piece borderless"></div>
+          <div class="piece bg-white">卒</div>
+          <div class="piece borderless"></div>
+          <div class="piece bg-white">卒</div>
+          <div class="piece borderless"></div>
+          <div class="piece bg-white">卒</div>
+        </div>
+      </div>
+      <!-- 紅色棋子 -->
+      <div class="red">
+        <div class="row">
+          <div class="red-piece bg-white">兵</div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece bg-white">兵</div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece bg-white">兵</div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece bg-white">兵</div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece bg-white">兵</div>
+        </div>
+        <div class="row">
+          <div class="red-piece borderless"></div>
+          <div class="red-piece bg-white">炮</div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece bg-white">炮</div>
+          <div class="red-piece borderless"></div>
+        </div>
+        <div class="row">
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+          <div class="red-piece borderless"></div>
+        </div>
+        <div class="row">
+          <div class="red-piece bg-white">俥</div>
+          <div class="red-piece bg-white">傌</div>
+          <div class="red-piece bg-white">相</div>
+          <div class="red-piece bg-white">仕</div>
+          <div class="red-piece bg-white">帥</div>
+          <div class="red-piece bg-white">仕</div>
+          <div class="red-piece bg-white">相</div>
+          <div class="red-piece bg-white">傌</div>
+          <div class="red-piece bg-white">俥</div>
+        </div>
+      </div>
+    </div>
+    <p>圖畫裡，龍不吟，虎不嘯，小小書僮可笑可笑</p>
+  </div>
+</body>
+
+</html>
